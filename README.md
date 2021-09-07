@@ -1,70 +1,50 @@
-# Getting Started with Create React App
+# Live demo
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Brief
 
-## Available Scripts
+To create a battleship game using gameboard, player and ship factories, tested with Jest.
 
-In the project directory, you can run:
+I also tried to meet all of the 'extra' parameters:
 
-### `npm start`
+- 2 player hot seating
+- Drag and drop
+- AI
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+While also setting myself:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Multiple sized game boards
+- Touch drag and drop (2 player hot seating far more likely on touch devices)
 
-### `npm test`
+## Thoughts after completion
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Well, I'm proud of having achieved everything I set out to do, even though I know there are more efficient ways of doing certain things. I implemented `useContext` for the first time, although didn't completely refactor the prop drilling as my application is only max 4 levels deep.
 
-### `npm run build`
+## Were time infinite
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Improve drag and drop
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+When I understand drag and drop better, I'll try to have the input register correctly in respect to the edges of the dragged object rather than the cursor. This was beyond me this time!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Show gameboards at end
 
-### `npm run eject`
+I couldn't decide whether to render both boards very small or to allow alternation between both boards (swipe or toggle?), not knowing whether it would look good or even be necessary. For this reason, I just declare a winner for now.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Render efficiency
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+I think I caused a problem by having my most important variable (`gameboard` in the `Gameboard` function) exposed only as a getter; as it's so crucial, I wanted it exposed in an immutable fashion, but as React can't actually enumerate the object, it wasn't rerendering objects passed `gameboard` as a prop. As such, I had to resort to key manipulation, which was less than ideal but seemed to be a [genuine answer](https://stackoverflow.com/questions/38892672/react-why-child-component-doesnt-update-when-prop-changes), so there you go. I'm sure there's some unnecessary rerendering going on.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Click and drag HTML5 fallback
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+For now this isn't playable on computers, but I really wanted touch drag-and-drop and knew this would get much more play on a mobile than a desktop so didn't consider it worth the trouble. However, this could be added with more work.
 
-## Learn More
+### Save game state
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+After each move I could save the game state to local memory, then have a `useEffect` on `App`'s first render checking if there's a saved game state, asking the user if they wish to continue and if so, setting state accordingly.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Improved visuals
 
-### Code Splitting
+I wanted this to be a very simple app; so many online versions are either ugly or lean heavily on military kitsch, so the idea of this was to be 'leap-in, leap-out, no-frills'. As such, I just used colour and nothing else.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Sound?
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+I guess I could add some sound effects, with a sound toggle in the header, but again the key here was simplicity of experience.
