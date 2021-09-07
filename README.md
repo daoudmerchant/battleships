@@ -1,4 +1,4 @@
-# Live demo
+# [Live Demo](https://daoudmerchant.github.io/battleships)
 
 ## Brief
 
@@ -18,6 +18,10 @@ While also setting myself:
 ## Thoughts after completion
 
 Well, I'm proud of having achieved everything I set out to do, even though I know there are more efficient ways of doing certain things. I implemented `useContext` for the first time, although didn't completely refactor the prop drilling as my application is only max 4 levels deep.
+
+## Er... Where's your commit history?
+
+Ah, yeah, _that_... Deployed to gh-pages, tried to update, it refused (which apparently [is a thing](https://www.google.com/search?q=deploy+gh+pages+not+updating+stackoverflow+site:stackoverflow.com&sxsrf=AOaemvKgVgVx3NuUsC6nm0wghSt3oEWbRA:1631002949107&sa=X&ved=2ahUKEwivsaK7t-zyAhXbRPEDHacoCqwQrQIoBHoECAYQBQ&biw=1920&bih=976)), tried to force an update by deleting my gh-pages branch, somehow broke it so deploy worked perfectly in the terminal but never appeared on github.com, tried everything, gave up. If you particularly want to see my commit history message me and I'll show you my hidden original repo.
 
 ## Were time infinite
 
