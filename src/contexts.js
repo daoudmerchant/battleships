@@ -1,6 +1,5 @@
 import { createContext } from "react";
 
-const VisibilityContext = createContext(),
-  GameOverContext = createContext();
+const VisibilityContext = createContext();
 
-export { VisibilityContext, GameOverContext };
+export { VisibilityContext };
