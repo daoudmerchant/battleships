@@ -50,7 +50,6 @@ const GameArea = ({
         })
       ) : (
         <Gameboard
-          // currently using key updates to force updates... Not cool?
           key={`${game.turn}${turnCount}`}
           gridDisplayWidth={gridDisplayWidth}
           gameboard={game.gameboard[game.turn]}
