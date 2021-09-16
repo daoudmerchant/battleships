@@ -15,8 +15,13 @@ import { VisibilityContext } from "../contexts";
 
 const GameboardDiv = styled.div`
   display: grid;
+  grid-template-rows: repeat(${(props) => props.boardSize + 1}, 1fr);
+  grid-template-columns: repeat(${(props) => props.boardSize + 1}, 1fr);
   margin: 0 auto;
   grid-gap: 1px;
+  opacity: ${(props) => (props.visible ? "1" : "0")};
+  width: ${(props) => props.gridDisplayWidth};
+  height: ${(props) => props.gridDisplayWidth};
 `;
 
 const Gameboard = ({
@@ -111,13 +116,9 @@ const Gameboard = ({
 
   return (
     <GameboardDiv
-      className={visible ? "fadeIn" : "fadeOut"}
-      style={{
-        gridTemplateRows: `repeat(${boardSize + 1}, 1fr)`,
-        gridTemplateColumns: `repeat(${boardSize + 1}, 1fr)`,
-        width: gridDisplayWidth,
-        height: gridDisplayWidth,
-      }}
+      visible={visible}
+      boardSize={boardSize}
+      gridDisplayWidth={gridDisplayWidth}
     >
       <Cell contents={" "} reportDrop={reportDrop} />
       {Letters.map((letter) => (
@@ -138,7 +139,6 @@ const Gameboard = ({
                     key={`num${i + 1}`}
                     reportDrop={reportDrop}
                   />
-                  {/* <GameCell cell={cell} row={i} col={j} /> */}
                   <Cell
                     cell={cell}
                     key={`square${i}-${j}`}
@@ -168,7 +168,6 @@ const Gameboard = ({
                   takeTurn={shipsPlaced && !computerTurn ? takeTurn : undefined}
                   shipsPlaced={shipsPlaced}
                 />
-                // <GameCell cell={cell} row={i} col={j} />
               );
             }
           })

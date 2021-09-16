@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 // game logic
-import Gameboard from "./functions/gameBoardFactory";
-import Ship from "./functions/shipFactory";
-import Player from "./functions/playerFactory";
+import Gameboard from "./factories/gameBoardFactory";
+import Ship from "./factories/shipFactory";
+import Player from "./factories/playerFactory";
 
 // components
 import Warnings from "./components/Warnings";
@@ -12,13 +12,37 @@ import Header from "./components/Header";
 import GameArea from "./components/GameArea";
 import ButtonChoice from "./components/ButtonChoice";
 
-// stylesheet
-import "./App.css";
+// // stylesheet
+// import "./App.css";
 
 // context
 import { VisibilityContext } from "./contexts";
 
 // styled components
+const GlobalStyle = createGlobalStyle`
+body,
+html,
+#root,
+.App {
+  margin: 0;
+  height: 100%;
+  background-color: bisque;
+  user-select: none;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+body {
+  font-family: "Varela Round", sans-serif;
+}
+
+/* fade */
+
+* {
+  transition: right 0.2s ease-in, left 0.2s ease-in, opacity 0.25s linear;
+}
+`;
+
 const Bold = styled.span`
   font-weight: bold;
 `;
@@ -281,33 +305,36 @@ function App() {
   }, [size, isSinglePlayer, reportEvent]);
 
   return (
-    <div className="App">
-      <Warnings />
-      <Header />
-      <VisibilityContext.Provider value={VisibilityValue}>
-        {game && !buttonChoiceData && (
-          <GameArea
-            game={game}
-            computerTurn={isSinglePlayer && game.turn === 1}
-            shipsPlaced={shipsPlaced}
-            placeShip={game.ships[game.turn].length ? placeShip : undefined}
-            placeLastShip={
-              game.ships[game.turn].length === 1
-                ? () => {
-                    reportEvent(() => proposeChangeTurn());
-                  }
-                : undefined
-            }
-            changeTurn={
-              isSinglePlayer
-                ? () => reportEvent(() => changeTurn())
-                : () => reportEvent(() => proposeChangeTurn())
-            }
-          />
-        )}
-        {buttonChoiceData && <ButtonChoice data={buttonChoiceData} />}
-      </VisibilityContext.Provider>
-    </div>
+    <>
+      <GlobalStyle />
+      <div className="App">
+        <Warnings />
+        <Header />
+        <VisibilityContext.Provider value={VisibilityValue}>
+          {game && !buttonChoiceData && (
+            <GameArea
+              game={game}
+              computerTurn={isSinglePlayer && game.turn === 1}
+              shipsPlaced={shipsPlaced}
+              placeShip={game.ships[game.turn].length ? placeShip : undefined}
+              placeLastShip={
+                game.ships[game.turn].length === 1
+                  ? () => {
+                      reportEvent(() => proposeChangeTurn());
+                    }
+                  : undefined
+              }
+              changeTurn={
+                isSinglePlayer
+                  ? () => reportEvent(() => changeTurn())
+                  : () => reportEvent(() => proposeChangeTurn())
+              }
+            />
+          )}
+          {buttonChoiceData && <ButtonChoice data={buttonChoiceData} />}
+        </VisibilityContext.Provider>
+      </div>
+    </>
   );
 }
 

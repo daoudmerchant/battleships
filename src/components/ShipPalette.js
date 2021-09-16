@@ -11,6 +11,7 @@ const Container = styled.div`
   width: 90vw;
   height: min-content;
   margin: 20px auto;
+  opacity: ${(props) => (props.visible ? "1" : "0")};
 `;
 
 const ShipContainer = styled.div`
@@ -30,7 +31,7 @@ const Bold = styled.span`
 const ShipPalette = ({ ship, width, setDidDrop, gridDisplayWidth }) => {
   const { visible } = useContext(VisibilityContext);
   return (
-    <Container className={visible ? "fadeIn" : "fadeOut"}>
+    <Container visible={visible}>
       <Caption>
         {["Drag ", <Bold>either</Bold>, " ship on to the board"]}
       </Caption>

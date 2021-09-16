@@ -4,7 +4,7 @@ const Ship = (length) => {
     isHit: new Array(length).fill(false),
     sunk: false,
   };
-  const isSunk = () => {
+  const _isSunk = () => {
     if (!ship.sunk) {
       const shipIsSunk = ship.isHit.every((square) => square);
       if (shipIsSunk) {
@@ -18,7 +18,7 @@ const Ship = (length) => {
       throw new Error("Index longer than ship");
     }
     ship.isHit[i] = true;
-    return isSunk();
+    return _isSunk();
   };
 
   return {
@@ -28,7 +28,7 @@ const Ship = (length) => {
       return ship.isHit;
     },
     get isSunk() {
-      return isSunk();
+      return _isSunk();
     },
   };
 };

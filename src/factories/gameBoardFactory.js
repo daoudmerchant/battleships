@@ -7,8 +7,8 @@ const Gameboard = (size) => {
 
     let gameboard = new Array(size).fill(new Array(size).fill({...}));
   */
-  let gameboard = [];
-  let shipsSunk = [];
+  let _gameboard = [];
+  let _shipsSunk = [];
 
   for (let i = 0; i < size; i++) {
     let row = [];
@@ -18,14 +18,14 @@ const Gameboard = (size) => {
         isHit: false,
       });
     }
-    gameboard.push(row);
+    _gameboard.push(row);
   }
 
   const _exists = (gameboard, [row, col]) =>
     gameboard[row] && gameboard[row][col];
 
   const insertShip = ({ ship, isVertical, coordinates, isConfirmed }) => {
-    const thisGameboard = isConfirmed ? gameboard : clone(gameboard);
+    const thisGameboard = isConfirmed ? _gameboard : clone(_gameboard);
     const [row, col] = coordinates;
     let isPossible = true;
     if (
@@ -34,7 +34,7 @@ const Gameboard = (size) => {
     ) {
       isPossible = false;
     }
-    const loopThroughShipSquares = (gameboard, cb) => {
+    const _loopThroughShipSquares = (gameboard, cb) => {
       for (let i = 0; i < ship.length; i++) {
         const thisRow = isVertical ? row + i : row;
         const thisCol = isVertical ? col : col + i;
@@ -42,7 +42,7 @@ const Gameboard = (size) => {
       }
     };
 
-    const placeShip = (gameboard, [row, col], i) => {
+    const _placeShip = (gameboard, [row, col], i) => {
       gameboard[row][col] = {
         containsShip: true,
         isHit: false,
@@ -55,7 +55,7 @@ const Gameboard = (size) => {
       };
     };
 
-    const testShipValidity = (gameboard, [row, col]) => {
+    const _testShipValidity = (gameboard, [row, col]) => {
       const thisSquare = _exists(gameboard, [row, col]);
       if (!thisSquare || thisSquare.containsShip) {
         // doesn't exist or already has ship
@@ -63,7 +63,7 @@ const Gameboard = (size) => {
       }
     };
 
-    const placeShipDummy = (gameboard, [row, col]) => {
+    const _placeShipDummy = (gameboard, [row, col]) => {
       const validDummyShipPiece = {
         containsShip: true,
         isDummy: true,
@@ -82,15 +82,15 @@ const Gameboard = (size) => {
       }
     };
     // validity check
-    loopThroughShipSquares(thisGameboard, testShipValidity);
+    _loopThroughShipSquares(thisGameboard, _testShipValidity);
 
     if (isConfirmed && isPossible) {
       // successful real placement
-      loopThroughShipSquares(thisGameboard, placeShip);
-      shipsSunk.push(() => ship.isSunk);
+      _loopThroughShipSquares(thisGameboard, _placeShip);
+      _shipsSunk.push(() => ship.isSunk);
     } else if (!isConfirmed) {
       // dummy placement
-      loopThroughShipSquares(thisGameboard, placeShipDummy);
+      _loopThroughShipSquares(thisGameboard, _placeShipDummy);
     }
     return {
       newGameboard: thisGameboard,
@@ -98,25 +98,25 @@ const Gameboard = (size) => {
     };
   };
   const receiveAttack = ([row, col]) => {
-    if (gameboard[row][col].isHit) {
+    if (_gameboard[row][col].isHit) {
       return false;
     }
-    if (gameboard[row][col].containsShip) {
-      gameboard[row][col].hitShip();
+    if (_gameboard[row][col].containsShip) {
+      _gameboard[row][col].hitShip();
     }
-    gameboard[row][col].isHit = true;
+    _gameboard[row][col].isHit = true;
     return true;
   };
 
   return {
     get current() {
-      return gameboard;
+      return _gameboard;
     },
     receiveAttack,
     insertShip,
     get isOver() {
       return (
-        !!shipsSunk.length && shipsSunk.every((shipIsSunk) => shipIsSunk())
+        !!_shipsSunk.length && _shipsSunk.every((shipIsSunk) => shipIsSunk())
       );
     },
   };

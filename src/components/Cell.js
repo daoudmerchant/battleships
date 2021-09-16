@@ -4,8 +4,9 @@ import { useDrop } from "react-dnd";
 
 const GameCell = styled.div`
   height: 100%;
+  background-color: ${(props) => props.backgroundColor};
   width: 100%;
-  border: 1px solid lightgrey;
+  border: ${(props) => (props.hasContents ? "none" : "1px solid lightgrey")};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,14 +23,7 @@ const Cell = ({
   takeTurn,
   shipsPlaced,
 }) => {
-  const checkIfExists = (cell, prop) => {
-    return cell.hasOwnProperty(prop) ? cell[prop] : undefined;
-  };
-  const containsShip = checkIfExists(cell, "containsShip"),
-    isDummy = checkIfExists(cell, "isDummy"),
-    isValid = checkIfExists(cell, "isValid"),
-    isHit = checkIfExists(cell, "isHit"),
-    shipIsSunk = checkIfExists(cell, "shipIsSunk");
+  const { containsShip, isDummy, isValid, isHit, shipIsSunk } = cell;
 
   const [, drop] = useDrop(() => ({
     accept: ["SHIP-VERTICAL", "SHIP-HORIZONTAL"],
@@ -45,7 +39,7 @@ const Cell = ({
         return;
       }
       reportDrop.confirm(true);
-      placeLastShip && placeLastShip();
+      placeLastShip?.();
     },
     hover(props, monitor) {
       if (contents) {
@@ -59,7 +53,7 @@ const Cell = ({
     },
   }));
   const backgroundColor =
-    (shipsPlaced && isHit === false) || contents
+    (shipsPlaced && isHit === false) || !!contents
       ? "transparent"
       : shipIsSunk
       ? "lightgrey"
@@ -70,15 +64,11 @@ const Cell = ({
       : containsShip && isDummy && isValid === false
       ? "orange"
       : "rgb(215, 245, 255)";
-  const style = contents
-    ? { backgroundColor: backgroundColor, border: "none" }
-    : {
-        backgroundColor: backgroundColor,
-      };
   return (
     <GameCell
       ref={drop}
-      style={style}
+      backgroundColor={backgroundColor}
+      hasContents={!!contents}
       onClick={
         takeTurn
           ? () => {

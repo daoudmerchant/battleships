@@ -96,7 +96,7 @@ const Player = () => {
     let predictiveMoves = undefined;
     let backupMoves = undefined;
     let randomMoves = [];
-    const pushToBackup = (array) => {
+    const _pushToBackup = (array) => {
       array.forEach((item) => backupMoves.push(item.coordinates));
     };
 
@@ -156,7 +156,7 @@ const Player = () => {
                 backupMoves = [];
               }
               const unhitSquares = checkFor.unhit(adjacentSquares);
-              unhitSquares && pushToBackup(unhitSquares);
+              unhitSquares && _pushToBackup(unhitSquares);
             }
           }
           if (options.length) {
@@ -175,7 +175,7 @@ const Player = () => {
     return predictiveMoves || backupMoves || randomMoves;
   };
 
-  const getRandom = (array) => {
+  const _getRandom = (array) => {
     if (array.length === 1) {
       return array[0];
     }
@@ -183,7 +183,7 @@ const Player = () => {
   };
 
   const takeTurn = (gameboard) => {
-    const nextMove = getRandom(processBoard(gameboard.current));
+    const nextMove = _getRandom(processBoard(gameboard.current));
     gameboard.receiveAttack(nextMove);
   };
 
@@ -230,13 +230,13 @@ const Player = () => {
   };
 
   const placeOwnShip = (gameboard, ship) => {
-    const isVertical = getRandom([true, false]);
+    const isVertical = Math.random() < 0.5;
     const shipPlacements = findShipPlacements({
       currentGameboard: gameboard.current,
       shipLength: ship.length,
       isVertical,
     });
-    const randomShipPlacement = getRandom(shipPlacements);
+    const randomShipPlacement = _getRandom(shipPlacements);
     const insertion = {
       ship,
       isVertical,

@@ -14,6 +14,9 @@ const Turn = styled.p`
   font-size: 1.2rem;
   // margin: 1rem auto -5px;
   font-weight: bold;
+  // centralise board after having placed ships
+  margin-top: ${(props) => (props.shipsPlaced ? "10vh" : "20px")};
+  opacity: ${(props) => (props.visible ? "1" : "0")};
 `;
 
 const gridDisplayWidth = "82vw";
@@ -33,17 +36,13 @@ const GameArea = ({
     setTurnCount((count) => count + 1);
   };
   const { visible } = useContext(VisibilityContext);
-
-  // centralise board after having placed ships
-  const style = shipsPlaced ? { marginTop: "10vh" } : undefined;
   return (
     <DndProvider backend={TouchBackend}>
-      <Turn className={visible ? "fadeIn" : "fadeOut"} style={style}>
+      <Turn visible={visible} shipsPlaced={shipsPlaced}>
         {game.turn === 0 ? "Player 1" : game.player2 ? "Computer" : "Player 2"}
       </Turn>
       {isGameOver ? (
         game.gameboard.map((gameboard, i) => {
-          alert("Game over");
           return (
             <Gameboard key={`board${i}`} gameboard={gameboard} length="40vw" />
           );
@@ -65,7 +64,7 @@ const GameArea = ({
         />
       )}
       {shipsPlaced && !computerTurn && (
-        <p className={visible ? "fadeIn" : "fadeOut"}>Tap to take a turn</p>
+        <p style={{ opacity: visible ? "1" : "0" }}>Tap to take a turn</p>
       )}
       {!shipsPlaced && (
         <ShipPalette

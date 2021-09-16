@@ -4,8 +4,16 @@ import { useDrag } from "react-dnd";
 import { usePreview } from "react-dnd-preview";
 
 const Ship = styled.div`
-  background-color: red;
+  background-color: ${(props) => (props.visible ? "red" : "transparent")};
   display: block;
+  width: calc(
+    ${(props) => props.gridDisplayWidth} / ${(props) => props.width + 1} *
+      ${(props) => (props.isVertical ? "1" : props.shipLength)}
+  );
+  height: calc(
+    ${(props) => props.gridDisplayWidth} / ${(props) => props.width + 1} *
+      ${(props) => (props.isVertical ? props.shipLength : "1")}
+  );
 `;
 
 const ShipPiece = ({
@@ -28,31 +36,19 @@ const ShipPiece = ({
     },
   }));
 
-  const shipLength = `calc(${gridDisplayWidth} / ${width + 1} * ${
-    ship.length
-  })`;
-  const shipHeight = `calc(${gridDisplayWidth} / ${width + 1})`;
-
   const ShipPreview = () => {
     const { display, style } = usePreview();
     if (!display) {
       return null;
     }
-    return isVertical ? (
+    return (
       <Ship
-        style={Object.assign(style, {
-          width: shipHeight,
-          height: shipLength,
-          backgroundColor: isDragging ? "red" : "transparent",
-        })}
-      />
-    ) : (
-      <Ship
-        style={Object.assign(style, {
-          width: shipLength,
-          height: shipHeight,
-          backgroundColor: isDragging ? "red" : "transparent",
-        })}
+        visible={isDragging}
+        gridDisplayWidth={gridDisplayWidth}
+        isVertical={isVertical}
+        width={width}
+        shipLength={ship.length}
+        style={style}
       />
     );
   };
@@ -60,12 +56,12 @@ const ShipPiece = ({
     <>
       <Ship
         ref={drag}
-        style={{
-          width: isVertical ? shipHeight : shipLength,
-          height: isVertical ? shipLength : shipHeight,
-          backgroundColor: isDragging ? "transparent" : "red",
-        }}
-      />{" "}
+        visible={!isDragging}
+        gridDisplayWidth={gridDisplayWidth}
+        isVertical={isVertical}
+        width={width}
+        shipLength={ship.length}
+      />
       <ShipPreview />
     </>
   );
