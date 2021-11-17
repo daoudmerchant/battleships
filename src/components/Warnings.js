@@ -8,7 +8,7 @@ const WarningContainer = styled.div`
   width: 100%;
   height: 100%;
   position: fixed;
-  background-color: bisque;
+  background-color: #fff2ff;
 `;
 
 const NoTouchWarning = styled(WarningContainer)`

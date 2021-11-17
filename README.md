@@ -16,6 +16,7 @@ I made the decision early on for this to be a mobile experience, as the 'pick-up
 - [x] Player vs player
 - [x] Multiple grid sizes
 - [x] Drag-and-drop ship placement
+- [x] Visual feedback for validity of dragged ship position
 - [x] Animations on state change
 - [x] Jest unit testing
 

@@ -27,7 +27,7 @@ html,
   margin: 0;
   padding: 0;
   height: 100%;
-  background-color: rgba(181,130,181,0.05);
+  background-color: #fff2ff;
   user-select: none;
   box-sizing: border-box;
   text-align: center;
