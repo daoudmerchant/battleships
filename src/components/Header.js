@@ -7,6 +7,9 @@ const HeaderContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
+  h1 {
+    margin: 0;
+  }
 `;
 
 const Header = memo(() => {

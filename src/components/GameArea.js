@@ -12,7 +12,7 @@ import { VisibilityContext } from "../contexts";
 
 const Turn = styled.p`
   font-size: 1.2rem;
-  // margin: 1rem auto -5px;
+  margin: 1em 0 0;
   font-weight: bold;
   // centralise board after having placed ships
   margin-top: ${(props) => (props.shipsPlaced ? "10vh" : "20px")};

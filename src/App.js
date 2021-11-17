@@ -25,11 +25,13 @@ html,
 #root,
 .App {
   margin: 0;
+  padding: 0;
   height: 100%;
-  background-color: bisque;
+  background-color: rgba(181,130,181,0.05);
   user-select: none;
   box-sizing: border-box;
   text-align: center;
+  position: relative;
 }
 
 body {

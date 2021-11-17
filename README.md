@@ -1,58 +1,51 @@
 # [Live Demo](https://daoudmerchant.github.io/battleships)
 
-## Brief
+## Battleships
 
-To create a battleship game using gameboard, player and ship factories, tested with Jest.
+A Battleships game for mobile devices, with an AI opponent, two-player hot-seating, multiple grid sizes and all game mechanics unit tested.
 
-I also tried to meet all of the 'extra' parameters:
+Written in React (hook-based) using React Drag and Drop, styled with Styled Components, tested with Jest.
 
-- 2 player hot seating
-- Drag and drop
-- AI
+### Why doesn't this work on desktop?
 
-While also setting myself:
+I made the decision early on for this to be a mobile experience, as the 'pick-up-and-play' simplicity and 2-player hot-seating were much more geared towards mobile play. As such, this uses the React DnD **touch** backend (entirely different to the HTML5 backend which leverages the `drag` event missing from mobile browsers), and the [most popular hybrid backend](https://www.npmjs.com/package/react-dnd-html5-touch-backend) hasn't been updated in 5 years and is [missing documentation](https://react-dnd.github.io/react-dnd/docs-html5-backend.html).
 
-- Multiple sized game boards
-- Touch drag and drop (2 player hot seating far more likely on touch devices)
+### Functionality
 
-## Thoughts after completion
+- [x] AI opponent
+- [x] Player vs player
+- [x] Multiple grid sizes
+- [x] Drag-and-drop ship placement
+- [x] Animations on state change
+- [x] Jest unit testing
 
-Well, I'm proud of having achieved everything I set out to do, even though I know there are more efficient ways of doing certain things. I implemented `useContext` for the first time, although didn't completely refactor the prop drilling as my application is only max 4 levels deep.
+### Possible future improvement
+
+- [ ] 'Hard' AI difficulty
+  - I specifically wrote a 'pure' AI algorithm which assesses each board afresh; I could include a 'hard' AI which keeps count of which ship sizes were placed to avoid random turns on squares where the remaining ship(s) couldn't fit (i.e. trying one of two isolated blank squares when the remaining ship(s) are 3+ squares long).
+- [ ] Drag-and-drop registering on dragged object edge rather than finger location
+- [ ] Increase render efficiency
+  - By exposing the all-important `gameboard` variable as a getter for increased immutability React was unable to enumerate the object to determine rerender necessity, obliging me to use [key manipulation](https://stackoverflow.com/questions/38892672/react-why-child-component-doesnt-update-when-prop-changes).
+- [ ] Local storage of game state for pause / resume
+- [ ] Improved visuals
+- [ ] Sound(?)
+
+### Concept
+
+This challenge was set by the Odin Project, giving a main objective and various 'stretch goals'; as none of the student solutions implemented all of the stretch goals and not a single one included a drag-and-drop ship placement interface as suggested, I made the decision early on to include everything :).
+
+I wanted this to be a relaxing game which I could return to on my phone for 2-5min sessions, hence including multiple board sizes. (Code is written so that the adjustment of one integer (`size`) can instantiate games of any size, 2x2 to 200x200, with only ship length and quantity logic needing adjustment (UX nightmare of a 200x200 grid on mobile notwithstanding)). Many Battleship games lean heavily stylistically on military chintz, so I attempted a soothing minimalist interface; this was also an opportunity to practise animated state changes fo a smoother experience.
+
+### Challenges
+
+- First implementation of the `useContext` hook
+- Factory functions (inc. scoped variables)
+- First project to use Styled Components
+- React Drag and Drop and Touch Backend library documentation contained comparatively little hand-holding compared to more official projects
+- Writing and passing Jest tests for all possible game mechanics
 
 ## Where's your commit history?
 
-I deployed to gh-pages, tried to update, it refused (which apparently [happens](https://www.google.com/search?q=deploy+gh+pages+not+updating+stackoverflow+site:stackoverflow.com&sxsrf=AOaemvKgVgVx3NuUsC6nm0wghSt3oEWbRA:1631002949107&sa=X&ved=2ahUKEwivsaK7t-zyAhXbRPEDHacoCqwQrQIoBHoECAYQBQ&biw=1920&bih=976)), tried to force an update by deleting my gh-pages branch, somehow broke it so deploy worked perfectly in the terminal but never appeared on github.com, tried everything, had to give up. My original commit history shows 56 commits over approx. 3 weeks.
+I deployed to gh-pages, tried to update, it refused (which apparently [happens](https://www.google.com/search?q=deploy+gh+pages+not+updating+stackoverflow+site:stackoverflow.com&sxsrf=AOaemvKgVgVx3NuUsC6nm0wghSt3oEWbRA:1631002949107&sa=X&ved=2ahUKEwivsaK7t-zyAhXbRPEDHacoCqwQrQIoBHoECAYQBQ&biw=1920&bih=976)), tried to force an update by deleting my gh-pages branch, somehow broke it so deploy worked perfectly in the terminal but the site never appeared on github.com, tried everything, had to give up. I'm sorry, I really tried! My original commit history shows 56 commits over approx. 3 weeks.
 
-## Possible future improvements
-
-### Click-and-drag HTML5 fallback
-
-I made the decision early on for this to be a mobile experience, as the 'pick-up-and-play' simplicity and 2-player hot-seating were much more geared towards mobile play. As such, this uses the React DnD touch backend (entirely different to the HTML5 backend, which leverages the `drag` event missing from mobile browsers), and the [most popular hybrid backend](https://www.npmjs.com/package/react-dnd-html5-touch-backend) hasn't been updated in 5 years and is [missing documentation](https://react-dnd.github.io/react-dnd/docs-html5-backend.html). I appreciate that ideally this would work on both mobile and desktop.
-
-### Improve drag and drop
-
-When I understand drag and drop better, I'll try to have the input register correctly in respect to the edges of the dragged object rather than the cursor. This was beyond me this time!
-
-### Show gameboards at end
-
-I couldn't decide whether to render both boards very small or to allow alternation between both boards (swipe or toggle?), not knowing whether it would look good or even be necessary. For this reason, I just declare a winner for now.
-
-### Render efficiency
-
-I think I caused a problem by having my most important variable (`gameboard` in the `Gameboard` function) exposed only as a getter; as it's so crucial, I wanted it exposed in an immutable fashion, but as React can't actually enumerate the object, it wasn't rerendering objects passed `gameboard` as a prop. As such, I had to resort to key manipulation, which was less than ideal but seemed to be a [genuine answer](https://stackoverflow.com/questions/38892672/react-why-child-component-doesnt-update-when-prop-changes) to the problem. I'm sure there's much to be done to improve effifiency.
-
-### Save game state
-
-After each move I could save the game state to local memory, then have a `useEffect` on `App`'s first render checking if there's a saved game state, asking the user if they wish to continue and if so, setting state accordingly. However, this game intended for quick play, this feature wasn't considered essential.
-
-### Improved visuals
-
-I wanted this to be a very simple app; so many online versions are either ugly or lean heavily on military kitsch, so the idea of this was to be 'leap-in, leap-out, no-frills'. As such, I just used colour and nothing else.
-
-### 'Hard' AI
-
-The concept of the AI algorithm was to assess *any* board and find the next best move, but a human can outsmart it by keeping track of the sunk ships (if only a 3x3 ship remains, for example, there's no point trying squares in spaces which can only accommodate 2x2 ships). This could be added later.
-
-### Sound?
-
-I guess I could add some sound effects, with a sound toggle in the header, but again the key here was simplicity of experience.
+I really hope you find this version of Battleships unique and relaxing!

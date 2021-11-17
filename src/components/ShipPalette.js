@@ -21,7 +21,7 @@ const ShipContainer = styled.div`
 `;
 
 const Caption = styled.p`
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 `;
 
 const Bold = styled.span`

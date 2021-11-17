@@ -19,6 +19,7 @@ const GameboardDiv = styled.div`
   grid-template-columns: repeat(${(props) => props.boardSize + 1}, 1fr);
   margin: 0 auto;
   grid-gap: 1px;
+  flex-grow: 0;
   opacity: ${(props) => (props.visible ? "1" : "0")};
   width: ${(props) => props.gridDisplayWidth};
   height: ${(props) => props.gridDisplayWidth};
